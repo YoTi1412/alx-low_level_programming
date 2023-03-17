@@ -3,9 +3,10 @@
 #include <stdio.h>
 
 /**
- * main - task hada aykhdm rbo se7a 
- * Return: 0
-**/
+ * main - Yrbi Ykhdm hh
+ *
+ * Return: 0 (Success)
+ */
 
 int main(void)
 {
