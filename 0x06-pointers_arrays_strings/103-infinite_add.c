@@ -4,7 +4,7 @@
  * rev_string - reverse array
  * @n: integer params
  * Return: 0
-*/
+ */
 
 void rev_string(char *n)
 {
@@ -33,7 +33,7 @@ void rev_string(char *n)
  * @r: pointer to buffer
  * @size_r: buffer size
  * Return: pointer to calling function
-*/
+ */
 
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
