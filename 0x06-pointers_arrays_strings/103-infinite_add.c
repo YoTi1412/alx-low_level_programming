@@ -4,7 +4,7 @@
  * rev_string - reverse array
  * @n: integer params
  * Return: 0
- */
+*/
 
 void rev_string(char *n)
 {
@@ -33,7 +33,7 @@ void rev_string(char *n)
  * @r: pointer to buffer
  * @size_r: buffer size
  * Return: pointer to calling function
- */
+*/
 
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
@@ -45,7 +45,7 @@ char *infinite_add(char *n1, char *n2, char *r, int size_r)
 	while (*(n2 + j) != '\0')
 		j++;
 	i--;
-	--;
+	j--;
 	if (j >= size_r || i >= size_r)
 		return (0);
 	while (j >= 0 || i >= 0 || overflow == 1)
@@ -75,4 +75,4 @@ char *infinite_add(char *n1, char *n2, char *r, int size_r)
 	*(r + digits) = '\0';
 	rev_string(r);
 	return (r);
-}j
+}
