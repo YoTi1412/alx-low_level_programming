@@ -1,106 +1,148 @@
 #include "main.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <ctype.h>
 
 /**
- * _is_zero - determines if either number is zero
- * @argv: argument vector.
+ * _print - moves a string one place to the left and prints the string
+ * @str: string to move
+ * @l: size of string
  *
- * Return: no return.
+ * Return: void
  */
-void _is_zero(char *argv[])
+void _print(char *str, int l)
 {
-    int i, isn1 = 1, isn2 = 1;
+	int i, j;
 
-    for (i = 0; argv[1][i]; i++)
-        if (argv[1][i] != '0')
-        {
-            isn1 = 0;
-            break;
-        }
+	i = j = 0;
+	while (i < l)
+	{
+		if (str[i] != '0')
+			j = 1;
+		if (j || i == l - 1)
+			_putchar(str[i]);
+		i++;
+	}
 
-    for (i = 0; argv[2][i]; i++)
-        if (argv[2][i] != '0')
-        {
-            isn2 = 0;
-            break;
-        }
-
-    if (isn1 == 1 || isn2 == 1)
-    {
-        printf("0\n");
-        exit(0);
-    }
+	_putchar('\n');
+	free(str);
 }
 
 /**
- * _initialize_array - sets memory to zero in a new array
- * @array: char array.
- * @length: length of the char array.
+ * mul - multiplies a char with a string and places the answer into dest
+ * @n: char to multiply
+ * @num: string to multiply
+ * @num_index: last non NULL index of num
+ * @dest: destination of multiplication
+ * @dest_index: highest index to start addition
  *
- * Return: pointer to a char array.
+ * Return: pointer to dest, or NULL on failure
  */
-char *_initialize_array(char *array, int length)
+char *mul(char n, char *num, int num_index, char *dest, int dest_index)
 {
-    int i = 0;
+	int j, k, mul, mulrem, add, addrem;
 
-    for (i = 0; i < length; i++)
-        array[i] = '0';
-    array[length] = '\0';
-    return (array);
+	mulrem = addrem = 0;
+	for (j = num_index, k = dest_index; j >= 0; j--, k--)
+	{
+		mul = (n - '0') * (num[j] - '0') + mulrem;
+		mulrem = mul / 10;
+		add = (dest[k] - '0') + (mul % 10) + addrem;
+		addrem = add / 10;
+		dest[k] = add % 10 + '0';
+	}
+	for (addrem += mulrem; k >= 0 && addrem; k--)
+	{
+		add = (dest[k] - '0') + addrem;
+		addrem = add / 10;
+		dest[k] = add % 10 + '0';
+	}
+	if (addrem)
+	{
+		return (NULL);
+	}
+	return (dest);
 }
 
 /**
- * _checknum - determines length of the number
- * and checks if number is in base 10.
- * @argv: arguments vector.
- * @num_row: row of the array.
+ * check_for_digits - checks the arguments to ensure they are digits
+ * @av: pointer to arguments
  *
- * Return: length of the number.
+ * Return: 0 if digits, 1 if not
  */
-int _checknum(char *argv[], int num_row)
+int check_for_digits(char **av)
 {
-    int num_len;
+	int i, j;
 
-    for (num_len = 0; argv[num_row][num_len]; num_len++)
-        if (!isdigit(argv[num_row][num_len]))
-        {
-            printf("Error\n");
-            exit(98);
-        }
-
-    return (num_len);
+	for (i = 1; i < 3; i++)
+	{
+		for (j = 0; av[i][j]; j++)
+		{
+			if (av[i][j] < '0' || av[i][j] > '9')
+				return (1);
+		}
+	}
+	return (0);
 }
 
 /**
- * main - Entry point.
- * program that multiplies two positive numbers.
- * @argc: number of arguments.
- * @argv: arguments vector.
+ * init - initializes a string
+ * @str: sting to initialize
+ * @l: length of strinf
  *
- * Return: 0 - success.
+ * Return: void
  */
+void init(char *str, int l)
+{
+	int i;
+
+	for (i = 0; i < l; i++)
+		str[i] = '0';
+	str[i] = '\0';
+}
+
+/**
+ * main - multiply two numbers
+ * @argc: number of arguments
+ * @argv: argument vector
+ *
+ * Return: zero, or exit status of 98 if failure
+ */
+
 int main(int argc, char *argv[])
 {
-    int num1_len, num2_len, result_len, add, addl, i, j, k, carry;
-    char *result;
+	int l1, l2, ln, ti, i;
+	char *a;
+	char *t;
+	char e[] = "Error\n";
 
-    // Check if the program was called with the correct number of arguments
-    if (argc != 3)
-        printf("Error\n"), exit(98);
-
-    // Check if either number is zero
-    _is_zero(argv);
-
-    // Determine the lengths of the input numbers
-    num1_len = _checknum(argv, 1);
-    num2_len = _checknum(argv, 2);
-
-    // Initialize the result array
-    result_len = num1_len + num2_len;
-    result = malloc(result_len + 1);
-    if (result == NULL)
-        printf("Error\n"), exit(98);
-    result = _initialize_array
-
+	if (argc != 3 || check_for_digits(argv))
+	{
+		for (ti = 0; e[ti]; ti++)
+			_putchar(e[ti]);
+		exit(98);
+	}
+	for (l1 = 0; argv[1][l1]; l1++)
+		;
+	for (l2 = 0; argv[2][l2]; l2++)
+		;
+	ln = l1 + l2 + 1;
+	a = malloc(ln * sizeof(char));
+	if (a == NULL)
+	{
+		for (ti = 0; e[ti]; ti++)
+			_putchar(e[ti]);
+		exit(98);
+	}
+	init(a, ln - 1);
+	for (ti = l2 - 1, i = 0; ti >= 0; ti--, i++)
+	{
+		t = mul(argv[2][ti], argv[1], l1 - 1, a, (ln - 2) - i);
+		if (t == NULL)
+		{
+			for (ti = 0; e[ti]; ti++)
+				_putchar(e[ti]);
+			free(a);
+			exit(98);
+		}
+	}
+	_print(a, ln - 1);
+	return (0);
+}
