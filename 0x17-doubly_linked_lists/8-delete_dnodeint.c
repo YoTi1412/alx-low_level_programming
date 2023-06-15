@@ -5,7 +5,7 @@
  * @h: pointer to the list
  *
  * Return: number of nodes
- */
+*/
 size_t dlistint_len(const dlistint_t *h)
 {
 	size_t nodes = 0;
@@ -29,7 +29,7 @@ size_t dlistint_len(const dlistint_t *h)
  * @index: index of the node to delete
  *
  * Return: 1 on success, -1 on failure
- */
+*/
 int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 {
 	dlistint_t *temp = *head;
