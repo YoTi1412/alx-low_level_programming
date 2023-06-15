@@ -5,7 +5,8 @@
  * @head: pointer to the list
  *
  * Return: sum of the data
- */
+*/
+
 int sum_dlistint(dlistint_t *head)
 {
 	int sum = 0;
